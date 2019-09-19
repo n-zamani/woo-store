@@ -1,0 +1,14 @@
+.woocommerce-Price-amount {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+ins {
+    text-decoration: none;
+}
+
+.woocommerce-Price-currencySymbol::after {
+    content: ".";
+    color: transparent;
+}

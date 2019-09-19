@@ -1,26 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import {history} from './_helpers/history';
+import Navbar from './_components/navbar';
+import {MainPage, RegisterPage, ProductsPage, ProductPage, CategoriesPage, CartPage, CheckoutPage} from './_pages';
+import { BrowserRouter as Router, Route,Switch } from "react-router-dom";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return <Router history={history}>
+    <Navbar/>
+    <Switch>
+      <Route path="/" exact component={MainPage}/>
+      <Route path="/categories" exact component={CategoriesPage}/>
+      <Route path="/category/:categoryId/:categorySlug" exact component={ProductsPage}/>
+      <Route path="/product/:productId/:productSlug" exact component={ProductPage}/>
+      {/* <Route path="/login" exact component={LoginPage}/> */}
+      <Route path="/register" exact component={RegisterPage}/>
+      {/* <Route paht="/user" exact component={UserPage}/> */}
+      <Route path="/cart" exact component={CartPage}/>
+      <Route path="/checkout" exact component={CheckoutPage}/>
+    </Switch>
+  </Router>
 }
 
 export default App;

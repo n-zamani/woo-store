@@ -1,0 +1,4 @@
+export const productsConstants = {
+    REQUEST_PRODUCTS: 'REQUEST_PRODUCTS',
+    RECEIVE_PRODUCTS: 'RECEIVE_PRODUCTS'
+}
