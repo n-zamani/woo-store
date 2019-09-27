@@ -3,11 +3,25 @@ import { authenticationConstants } from "../_constants";
 export function authentication(state = {}, action) {
     switch (action.type) {
       case authenticationConstants.REGISTER_REQUEST:
-        return { registerRequest: true };
+        return { ...state, registerRequest: true, user: action.user };
       case authenticationConstants.REGISTER_SUCCESS:
-        return {registerRequest: false};
+        return { ...state, registerRequest: false, user: action.user };
       case authenticationConstants.REGISTER_FAILED:
-        return {};
+        return {...state, registerRequest: false, error: action.error };
+      case authenticationConstants.LOGIN_REQUEST:
+        return {...state, loginRequest: true, user: action.user};
+      case authenticationConstants.LOGIN_SUCCESS:
+        return {...state, loginRequest: false, user: action.user};
+      case authenticationConstants.LOGIN_FAILED:
+        return {...state, loginRequest: false, error: action.error};
+      case authenticationConstants.LOGOUT:
+        return { ...state, user: {} };
+      case authenticationConstants.GET_USER_REQUEST:
+        return {...state, user: {}};
+      case authenticationConstants.GET_USER_SUCCESS:
+        return {...state, user: action.user};
+      case authenticationConstants.GET_USER_FAIL:
+        return {...state, error: action.error};
       default:
         return state;
     }

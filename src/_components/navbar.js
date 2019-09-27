@@ -30,6 +30,8 @@ const Navbar = (props) => {
     const [horizontal, setHorizontal] = useState('right');
     const [vertical, setVertical] = useState('top');
 
+    localStorage.setItem('cart',JSON.stringify(props.cartProducts));
+
     return (
         <BottomNavigation
             value={props.location.pathname}
@@ -53,6 +55,18 @@ const Navbar = (props) => {
                 label="عضویت"
                 icon={<AccountCircleOutlinedIcon />}
                 component={Link} to="/register"
+            />
+            <BottomNavigationAction  
+                value="/login"  
+                label="ورود"
+                icon={<AccountCircleOutlinedIcon />}
+                component={Link} to="/login"
+            />
+            <BottomNavigationAction  
+                value="/user"  
+                label="کاربر"
+                icon={<AccountCircleOutlinedIcon />}
+                component={Link} to="/user"
             />
             <BottomNavigationAction
                 value="/cart"    

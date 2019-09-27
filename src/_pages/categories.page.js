@@ -12,7 +12,10 @@ class CategoriesPage extends Component {
 
     componentDidMount() {
         const dispatch = this.props.dispatch;
-        dispatch(categoriesAction.getCategories());
+        const receivedCategories = this.props.receivedCategories;
+        if (!receivedCategories.length) {
+            dispatch(categoriesAction.getCategories());
+        }
     }
 
     render() {

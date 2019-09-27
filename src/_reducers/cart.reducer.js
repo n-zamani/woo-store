@@ -1,6 +1,6 @@
 import { cartConstants } from '../_constants';
 
-const initialState = { cartProducts: { totalQty: 0, totalPrice: 0 } }
+const initialState = { cartProducts: localStorage.getItem('cart') ? JSON.parse(localStorage.getItem('cart')) : { totalQty: 0, totalPrice: 0 } }
 
 export function cart(state = initialState, action) {
     switch (action.type) {
@@ -71,6 +71,11 @@ export function cart(state = initialState, action) {
                     totalQty: state.cartProducts.totalQty - removedQty,
                     totalPrice: state.cartProducts.totalPrice - removedPrice * removedQty
                 }
+            };
+        case cartConstants.EMPTY_CART:
+            return {
+                ...state,
+                cartProducts: {totalQty: 0, totalPrice: 0}
             };
         default:
             return state;

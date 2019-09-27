@@ -5,7 +5,8 @@ export const cartAction = {
     increaseProduct,
     decreaseProduct,
     changeQuantity,
-    removeProduct
+    removeProduct,
+    emptyCart
 }
 
 function addToCart(product) {
@@ -46,4 +47,12 @@ function removeProduct(id) {
     }
 
     function remove(id) { return { type: cartConstants.REMOVE_PRODUCT, removedProduct: { id } } }
+}
+
+function emptyCart() {
+    return dispatch => {
+        dispatch(empty());
+    };
+
+    function empty() {return {type: cartConstants.EMPTY_CART}}
 }
