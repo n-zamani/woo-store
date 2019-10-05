@@ -7,7 +7,7 @@ export function product(state=initialState, action) {
         case productConstants.REQUEST_PRODUCT:
           return {productRequest: true, receivedProduct: {}};
         case productConstants.RECEIVE_PRODUCT:
-            return {productRequest: false, receivedProduct: action.product};
+          return {productRequest: false, receivedProduct: action.product};
         default:
           return state;
       }

@@ -20,7 +20,7 @@ async function getPaymentMethods() {
         .then(response => response.json())
 }
 
-async function createOrder(billingAddress,shippingAddress,shippingMethod,paymentMethod) {
+async function createOrder(address,shippingMethod,paymentMethod) {
 
     const cart = JSON.parse(localStorage.getItem('cart'));
 
@@ -41,26 +41,26 @@ async function createOrder(billingAddress,shippingAddress,shippingMethod,payment
 
     const data = {
         payment_method: paymentMethod,
-        customer_id: JSON.parse(localStorage.getItem('userid')),
+        customer_id: JSON.parse(localStorage.getItem('userid')) ? JSON.parse(localStorage.getItem('userid')) : 0,
         billing: {
-            first_name: billingAddress.firstName,
-            last_name: billingAddress.lastName,
-            address_1: billingAddress.address1,
-            address_2: billingAddress.address2,
-            city: billingAddress.city,
-            postcode: billingAddress.postcode,
-            country: billingAddress.country,
-            email: billingAddress.email,
-            phone: billingAddress.phone
+            first_name: address.firstName,
+            last_name: address.lastName,
+            address_1: address.address1,
+            address_2: address.address2,
+            city: address.city,
+            postcode: address.postcode,
+            country: address.country,
+            email: address.email,
+            phone: address.phone
         },
         shipping: {
-            first_name: shippingAddress.firstName,
-            last_name: shippingAddress.lastName,
-            address_1: shippingAddress.address1,
-            address_2: shippingAddress.address2,
-            city: shippingAddress.city,
-            postcode: shippingAddress.postcode,
-            country: shippingAddress.country
+            first_name: address.firstName,
+            last_name: address.lastName,
+            address_1: address.address1,
+            address_2: address.address2,
+            city: address.city,
+            postcode: address.postcode,
+            country: address.country
         },
         line_items: items,
         shipping_lines: [

@@ -12,10 +12,19 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import RTL from '../rtl';
+import TextField from '@material-ui/core/TextField';
+
+const theme = createMuiTheme({
+    direction: 'rtl',
+});
 
 const useStyles = makeStyles(theme => ({
     root: {
         width: '90%',
+        direction: 'rtl',
+        margin: '2rem auto'
     },
     backButton: {
         marginRight: theme.spacing(1),
@@ -27,17 +36,29 @@ const useStyles = makeStyles(theme => ({
     formControl: {
         margin: theme.spacing(3),
         textAlign: 'right'
-    }
+    },
+    container: {
+        display: 'grid',
+        gridTemplateColumns: '50% 50%',
+        flexWrap: 'wrap',
+        direction: 'rtl',
+        width: '50%'
+    },
+    textField: {
+        marginLeft: '8px!important',
+        marginRight: '8px!important'
+    },
 }));
 
-
 const CheckoutPage = (props) => {
-    
+
+    const classes = useStyles();
+
     const dispatch = props.dispatch;
     const shipMethods = props.shipMethods;
     const payMethods = props.payMethods;
-    
-    const [billingAddress, setBillingAddress] = useState({
+
+    const [address, setAddress] = useState({
         firstName: '',
         lastName: '',
         address1: '',
@@ -47,201 +68,193 @@ const CheckoutPage = (props) => {
         country: '',
         phone: '',
         email: ''
-    })
-    
-    const [shippingAddress, setShippingAddress] = useState({
-        firstName: '',
-        lastName: '',
-        address1: '',
-        address2: '',
-        city: '',
-        postcode: '',
-        country: ''
-    })
-    
+    });
+
     const [shippingMethod, setShippingMethod] = useState({
         method: '',
         price: '0'
     });
-    
+
     const [paymentMethod, setPaymentMethod] = useState('');
-    
-    const handleBillingAddressChange = ({ target: { name, value } }) => {
-        setBillingAddress({
-            ...billingAddress,
+
+    const handleAddressChange = ({ target: { name, value } }) => {
+        setAddress({
+            ...address,
             [name]: value
         });
     }
-    
-    const handleShippingAddressChange = ({ target: { name, value } }) => {
-        setShippingAddress({
-            ...shippingAddress,
-            [name]: value
-        });
-    }
-    
+
     const handleShipmentChange = ({ target: { value } }) => {
-        
+
         const findItem = shipMethods.findIndex(item => value == item.method_id);
         const price = shipMethods[findItem].settings.cost && shipMethods[findItem].settings.cost.value || '0'
-        
+
         setShippingMethod({
             method: value,
             price: price
         });
     }
-    
+
     const handlePaymentChange = ({ target: { value } }) => {
         setPaymentMethod(value);
     }
-    
+
     function getSteps() {
         return ['آدرس', 'روش ارسال', 'روش پرداخت'];
     }
-    
+
     function getStepContent(stepIndex) {
         switch (stepIndex) {
             case 0:
-                return <div style={{ display: 'flex', justifyContent: 'space-around', textAlign: 'right' }}>
-                    <div>
-                        <h2>آدرس صورتحساب</h2>
-                        <form>
-                            <label>
-                                :نام
-                            <br />
-                                <input type='text' name='firstName' value={billingAddress.firstName} onChange={handleBillingAddressChange} />
-                            </label>
-                            <br />
-                            <label>
-                                :نام خانوادگی
-                            <br />
-                                <input type='text' name='lastName' value={billingAddress.lastName} onChange={handleBillingAddressChange} />
-                            </label>
-                            <br />
-                            <label>
-                                :آدرس 1
-                            <br />
-                                <input type='text' name='address1' value={billingAddress.address1} onChange={handleBillingAddressChange} />
-                            </label>
-                            <br />
-                            <label>
-                                :آدرس 2
-                            <br />
-                                <input type='text' name='address2' value={billingAddress.address2} onChange={handleBillingAddressChange} />
-                            </label>
-                            <br />
-                            <label>
-                                :شهر
-                            <br />
-                                <input type='text' name='city' value={billingAddress.city} onChange={handleBillingAddressChange} />
-                            </label>
-                            <br />
-                            <label>
-                                :کد پستی
-                            <br />
-                                <input type='text' name='postcode' value={billingAddress.postcode} onChange={handleBillingAddressChange} />
-                            </label>
-                            <br />
-                            <label>
-                                :کشور
-                            <br />
-                                <input type='text' name='country' value={billingAddress.country} onChange={handleBillingAddressChange} />
-                            </label>
-                            <br />
-                            <label>
-                                :تلفن
-                            <br />
-                                <input type='text' name='phone' value={billingAddress.phone} onChange={handleBillingAddressChange} />
-                            </label>
-                            <br />
-                            <label>
-                                :ایمیل
-                            <br />
-                                <input type='text' name='email' value={billingAddress.email} onChange={handleBillingAddressChange} />
-                            </label>
-                            <br />
-                        </form>
-                    </div>
-                    <div>
-                        <h2>آدرس ارسال</h2>
-                        <form>
-                            <label>
-                                :نام
-                            <br />
-                                <input type='text' name='firstName' value={shippingAddress.firstName} onChange={handleShippingAddressChange} />
-                            </label>
-                            <br />
-                            <label>
-                                :نام خانوادگی
-                            <br />
-                                <input type='text' name='lastName' value={shippingAddress.lastName} onChange={handleShippingAddressChange} />
-                            </label>
-                            <br />
-                            <label>
-                                :آدرس 1
-                            <br />
-                                <input type='text' name='address1' value={shippingAddress.address1} onChange={handleShippingAddressChange} />
-                            </label>
-                            <br />
-                            <label>
-                                :آدرس 2
-                            <br />
-                                <input type='text' name='address2' value={shippingAddress.address2} onChange={handleShippingAddressChange} />
-                            </label>
-                            <br />
-                            <label>
-                                :شهر
-                            <br />
-                                <input type='text' name='city' value={shippingAddress.city} onChange={handleShippingAddressChange} />
-                            </label>
-                            <br />
-                            <label>
-                                :کد پستی
-                            <br />
-                                <input type='text' name='postcode' value={shippingAddress.postcode} onChange={handleShippingAddressChange} />
-                            </label>
-                            <br />
-                            <label>
-                                :کشور
-                            <br />
-                                <input type='text' name='country' value={shippingAddress.country} onChange={handleShippingAddressChange} />
-                            </label>
-                        </form>
-                    </div>
+                return <div>
+                    <RTL>
+                        <MuiThemeProvider theme={theme}>
+                            <h2>آدرس</h2>
+                            <form className={classes.container}>
+                                <TextField
+                                    required
+                                    name="firstName"
+                                    value={address.firstName}
+                                    label="نام"
+                                    onChange={handleAddressChange}
+                                    id="outlined-firstName"
+                                    className={classes.textField}
+                                    margin="normal"
+                                    variant="outlined"
+                                />
+                                <TextField
+                                    required
+                                    name="lastName"
+                                    value={address.lastName}
+                                    label="نام خانوادگی"
+                                    onChange={handleAddressChange}
+                                    id="outlined-lastName"
+                                    className={classes.textField}
+                                    margin="normal"
+                                    variant="outlined"
+                                />
+                                <TextField
+                                    required
+                                    name="address1"
+                                    value={address.address1}
+                                    label="آدرس خط 1"
+                                    onChange={handleAddressChange}
+                                    id="outlined-address1"
+                                    className={classes.textField}
+                                    margin="normal"
+                                    variant="outlined"
+                                    style={{ gridColumn: '1 / span 2' }}
+                                />
+                                <TextField
+                                    name="address2"
+                                    value={address.address2}
+                                    label="آدرس خط 2"
+                                    onChange={handleAddressChange}
+                                    id="outlined-address2"
+                                    className={classes.textField}
+                                    margin="normal"
+                                    variant="outlined"
+                                    style={{ gridColumn: '1 / span 2' }}
+                                />
+                                <TextField
+                                    required
+                                    name="city"
+                                    value={address.city}
+                                    label="شهر"
+                                    onChange={handleAddressChange}
+                                    id="outlined-city"
+                                    className={classes.textField}
+                                    margin="normal"
+                                    variant="outlined"
+                                />
+                                <TextField
+                                    required
+                                    name="country"
+                                    value={address.country}
+                                    label="کشور"
+                                    onChange={handleAddressChange}
+                                    id="outlined-country"
+                                    className={classes.textField}
+                                    margin="normal"
+                                    variant="outlined"
+                                />
+                                <TextField
+                                    required
+                                    name="postcode"
+                                    value={address.postcode}
+                                    label="کد پستی"
+                                    onChange={handleAddressChange}
+                                    id="outlined-postcode"
+                                    className={classes.textField}
+                                    margin="normal"
+                                    variant="outlined"
+                                    dir="ltr"
+                                />
+                                <TextField
+                                    required
+                                    name="phone"
+                                    value={address.phone}
+                                    label="تلفن"
+                                    onChange={handleAddressChange}
+                                    id="outlined-phone"
+                                    className={classes.textField}
+                                    margin="normal"
+                                    variant="outlined"
+                                    dir="ltr"
+                                />
+                                <TextField
+                                    required
+                                    name="email"
+                                    value={address.email}
+                                    label="پست الکترونیکی"
+                                    onChange={handleAddressChange}
+                                    id="outlined-email"
+                                    className={classes.textField}
+                                    margin="normal"
+                                    variant="outlined"
+                                    style={{ gridColumn: '1 / span 2' }}
+                                    dir="ltr"
+                                />
+                            </form>
+                        </MuiThemeProvider>
+                    </RTL>
                 </div>
             case 1:
-                return <FormControl component="fieldset">
-                    <RadioGroup aria-label="shipping" name="shipping" value={shippingMethod.method} onChange={handleShipmentChange}>
-                        {shipMethods ? shipMethods.map(method => method.enabled && <>
-                            <FormControlLabel
-                                value={method.method_id}
-                                control={<Radio color="primary" />}
-                                label={method.title}
-                                labelPlacement="start"
+                return <div style={{ textAlign: 'right' }}>
+                    <h2>روش ارسال</h2>
+                    <FormControl component="fieldset">
+                        <RadioGroup aria-label="shipping" name="shipping" value={shippingMethod.method} onChange={handleShipmentChange}>
+                            {shipMethods ? shipMethods.map(method => method.enabled && <div>
+                                <FormControlLabel
+                                    value={method.method_id}
+                                    control={<Radio color="primary" />}
+                                    label={`${method.title} ${method.settings.cost ? `(${method.settings.cost.value} تومان)` : ''}`}
+                                    labelPlacement="end"
                                 />
-                            <span>{method.settings.cost && `تومان ${method.settings.cost.value}`}</span>
-                        </>) : 'loading...'}
-                    </RadioGroup>
-                </FormControl >
-
-case 2:
-    return <FormControl component="fieldset" className={classes.formControl}>
-                    <RadioGroup aria-label="payment" name="payment" value={paymentMethod} onChange={handlePaymentChange}>
-                        {payMethods ? payMethods.map(method => method.enabled && <FormControlLabel
-                            value={method.id}
-                            control={<Radio color="primary" />}
-                            label={`${method.title} (${method.description})`}
-                            labelPlacement="start"
+                            </div>) : 'loading...'}
+                        </RadioGroup>
+                    </FormControl >
+                </div>
+            case 2:
+                return <div style={{ textAlign: 'right' }}>
+                    <h2>روش پرداخت</h2>
+                    <FormControl component="fieldset" className={classes.formControl}>
+                        <RadioGroup aria-label="payment" name="payment" value={paymentMethod} onChange={handlePaymentChange}>
+                            {payMethods ? payMethods.map(method => method.enabled && <FormControlLabel
+                                value={method.id}
+                                control={<Radio color="primary" />}
+                                label={`${method.title} (${method.description})`}
+                                labelPlacement="end"
                             />) : 'loading...'}
-                    </RadioGroup>
-                </FormControl >
+                        </RadioGroup>
+                    </FormControl >
+                </div>
         }
     }
-    
-    const classes = useStyles();
+
     const [activeStep, setActiveStep] = useState(0);
     const steps = getSteps();
-    
+
     function handleNext() {
         setActiveStep(prevActiveStep => prevActiveStep + 1);
     }
@@ -249,7 +262,7 @@ case 2:
     function handleBack() {
         setActiveStep(prevActiveStep => prevActiveStep - 1);
     }
-    
+
     useEffect(() => {
         if (!shipMethods && !payMethods) {
             dispatch(orderAction.shippingMethods());
@@ -257,16 +270,16 @@ case 2:
         }
 
         if (activeStep == 3) {
-            dispatch(orderAction.createOrder(billingAddress,shippingAddress,shippingMethod,paymentMethod));
+            dispatch(orderAction.createOrder(address, shippingMethod, paymentMethod));
             dispatch(cartAction.emptyCart());
         }
     })
 
     return <div className={classes.root}>
-        <Stepper activeStep={activeStep} alternativeLabel>
+        <Stepper activeStep={activeStep}>
             {steps.map(label => (
                 <Step key={label}>
-                    <StepLabel>{label}</StepLabel>
+                    <StepLabel />
                 </Step>
             ))}
         </Stepper>
@@ -276,7 +289,7 @@ case 2:
                     <Typography className={classes.instructions}>سفارش ثبت شد</Typography>
                 </div>
             ) : (
-                <div>
+                    <div>
                         {getStepContent(activeStep)}
                         <br />
                         <div>

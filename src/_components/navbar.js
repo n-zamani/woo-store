@@ -17,7 +17,9 @@ const useStyles = makeStyles(theme => ({
         justifyContent: "flex-start",
         flexDirection: "row-reverse",
         backgroundColor: "#ff6a5f",
-        padding: "20px 0"
+        padding: "20px 0",
+        boxShadow: '0px 1px 5px 1px rgba(0,0,0,0.2)',
+        zIndex: 10
     },
     row: {
         display: 'flex',
@@ -30,7 +32,7 @@ const Navbar = (props) => {
     const [horizontal, setHorizontal] = useState('right');
     const [vertical, setVertical] = useState('top');
 
-    localStorage.setItem('cart',JSON.stringify(props.cartProducts));
+    localStorage.setItem('cart', JSON.stringify(props.cartProducts));
 
     return (
         <BottomNavigation
@@ -50,26 +52,21 @@ const Navbar = (props) => {
                 icon={<ReorderOutlinedIcon />}
                 component={Link} to="/categories"
             />
-            <BottomNavigationAction  
-                value="/register"  
-                label="عضویت"
-                icon={<AccountCircleOutlinedIcon />}
-                component={Link} to="/register"
-            />
-            <BottomNavigationAction  
-                value="/login"  
-                label="ورود"
-                icon={<AccountCircleOutlinedIcon />}
-                component={Link} to="/login"
-            />
-            <BottomNavigationAction  
-                value="/user"  
-                label="کاربر"
-                icon={<AccountCircleOutlinedIcon />}
-                component={Link} to="/user"
-            />
+            {
+                localStorage.getItem('token') ? <BottomNavigationAction
+                    value="/user"
+                    label="کاربر"
+                    icon={<AccountCircleOutlinedIcon />}
+                    component={Link} to="/user"
+                /> : <BottomNavigationAction
+                        value="/login"
+                        label="ورود / ثبت نام"
+                        icon={<AccountCircleOutlinedIcon />}
+                        component={Link} to="/login"
+                    />
+            }
             <BottomNavigationAction
-                value="/cart"    
+                value="/cart"
                 label="سبد خرید"
                 icon={<div className={classes.row}><Badge badgeContent={props.cartProducts.totalQty} color="primary" anchorOrigin={{ horizontal, vertical }}><ShoppingCartOutlinedIcon /></Badge></div>}
                 component={Link} to="/cart"
@@ -80,7 +77,7 @@ const Navbar = (props) => {
 
 function mapStateToProps(state) {
     return {
-        cartProducts: state.cart.cartProducts
+        cartProducts: state.cart.cartProducts,
     };
 }
 

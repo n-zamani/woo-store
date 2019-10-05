@@ -1,11 +1,11 @@
 import { authenticationConstants } from '../_constants';
 import { authenticationService } from '../_service';
+import { cartAction } from './cart.action'
 
 export const authenticationAction = {
     login,
     register,
-    logout,
-    getUser
+    logout
 };
 
 function register(username, first_name, last_name, email, password, history) {
@@ -55,34 +55,10 @@ function login(username, password, history) {
 function logout(history) {
     return dispatch => {
         dispatch(success());
-        localStorage.removeItem('token', '');
-        localStorage.removeItem('email', '');
+        localStorage.clear();
+        dispatch(cartAction.emptyCart());
         history.push('/');
     }
 
     function success() { return { type: authenticationConstants.LOGOUT } }
-}
-
-function getUser(email) {
-    return dispatch => {
-
-        dispatch(request());
-
-        authenticationService.getUser(email)
-            .then(
-                response => {
-                    dispatch(success(response[0]));
-                    localStorage.setItem('userid', JSON.stringify(response[0].id));
-                },
-                error => {
-                    dispatch(fail(error));
-                    localStorage.removeItem('token', '');
-                    localStorage.removeItem('email', '');
-                }
-            )
-    }
-
-    function request() {return {type: authenticationConstants.GET_USER_REQUEST}}
-    function success(user) {return {type: authenticationConstants.GET_USER_SUCCESS, user}}
-    function fail(error) {return {type: authenticationConstants.GET_USER_FAIL, error}}
 }

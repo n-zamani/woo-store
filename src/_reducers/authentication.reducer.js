@@ -16,12 +16,6 @@ export function authentication(state = {}, action) {
         return {...state, loginRequest: false, error: action.error};
       case authenticationConstants.LOGOUT:
         return { ...state, user: {} };
-      case authenticationConstants.GET_USER_REQUEST:
-        return {...state, user: {}};
-      case authenticationConstants.GET_USER_SUCCESS:
-        return {...state, user: action.user};
-      case authenticationConstants.GET_USER_FAIL:
-        return {...state, error: action.error};
       default:
         return state;
     }

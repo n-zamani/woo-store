@@ -2,8 +2,7 @@ import { HOST, KEY } from '../_constants';
 
 export const authenticationService = {
     login,
-    register,
-    getUser
+    register
 };
 
 async function register(username, first_name, last_name, email, password) {
@@ -53,23 +52,5 @@ async function login(username, password) {
         return response;
     } else {
         return Promise.reject({message: response.message, status: response.data.status})
-    }
-}
-
-async function getUser(email) {
-    const response = await fetch(`${HOST}customers/?email=${email}&${KEY}`, {
-        method: 'GET',
-        headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
-    }
-    })
-    .then(response => response.json());
-
-    if (response.message) {
-        return Promise.reject({message: response.message, status: response.data.status})
-    } else {
-        return response;
     }
 }

@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 class MainPage extends Component {
     render() {
-        return <><p>Hello</p></>
+        return <div dir="rtl" className="main-page">
+        </div>
     }
 }
 

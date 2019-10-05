@@ -37,11 +37,11 @@ function paymentMethods() {
     function success(paymentMethods) {return {type: orderConstants.PAYMENT_METHOD_SUCCESS, paymentMethods}}
 }
 
-function createOrder(billingAddress,shippingAddress,shippingMethod,paymentMethod) {
+function createOrder(address,shippingMethod,paymentMethod) {
     return dispatch => {
         dispatch(request());
 
-        orderService.createOrder(billingAddress,shippingAddress,shippingMethod,paymentMethod).then(
+        orderService.createOrder(address,shippingMethod,paymentMethod).then(
             response => {
                 dispatch(success(response));
             }
