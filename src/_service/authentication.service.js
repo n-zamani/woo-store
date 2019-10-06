@@ -38,7 +38,7 @@ async function login(username, password) {
         password
     }
 
-    const response = await fetch('https://woocommerce.niloofar-zamani.ir/wp-json/jwt-auth/v1/token', {
+    const response = await fetch('https://YOUR_WEBSITE/wp-json/jwt-auth/v1/token', {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
