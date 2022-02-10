@@ -7,7 +7,7 @@
     "@material-ui/icons": "^4.2.1",
     "history": "^4.9.0",
     "jss-rtl": "^0.3.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-jss": "^10.0.0",
